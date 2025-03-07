@@ -36,8 +36,10 @@ applicationPort: 8108
 ## Define custom environment variables to pass to the image here
 ##
 extraEnv:
-  TYPESENSE_API_KEY: "wVW2QpmOvCAob5YkGyRfjSgwAXftoAwUhfqi4Ukq63s="
-  TYPESENSE_DATA_DIR: "/data"
+  - name: TYPESENSE_API_KEY
+    value: "wVW2QpmOvCAob5YkGyRfjSgwAXftoAwUhfqi4Ukq63s="
+  - name: TYPESENSE_DATA_DIR
+    value: "/data"
 
 ## Define a reference to a config map or a secret to pass into the pod as environment vars
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
