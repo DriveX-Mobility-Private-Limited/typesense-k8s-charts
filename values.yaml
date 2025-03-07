@@ -148,7 +148,7 @@ ingress:
       ##
       ## If certManager is set to true, annotation kubernetes.io/tls-acme: "true" will automatically be set
       annotations:
-       cert-manager.io/cluster-issuer: typesense-dev
+       cert-manager.io/cluster-issuer: letsencrypt-dev
        app.kubernetes.io/name: typesense-dev
        kubernetes.io/ingress.class: "nginx"
        # kubernetes.io/ingress.class: alb
