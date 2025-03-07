@@ -40,6 +40,16 @@ extraEnv:
     value: "wVW2QpmOvCAob5YkGyRfjSgwAXftoAwUhfqi4Ukq63s="
   - name: TYPESENSE_DATA_DIR
     value: "/data"
+  - name: TYPESENSE_CORS_ORIGINS
+    value: "*"  # Or specify your dashboard domain
+  - name: TYPESENSE_CORS_METHODS
+    value: "GET,POST,PUT,DELETE"
+  - name: TYPESENSE_CORS_HEADERS
+    value: "Content-Type,X-TYPESENSE-API-KEY"
+  - name: TYPESENSE_CORS_MAX_AGE
+    value: "86400"
+  - name: TYPESENSE_CORS_CREDENTIALS
+    value: "true"    
 
 ## Define a reference to a config map or a secret to pass into the pod as environment vars
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
