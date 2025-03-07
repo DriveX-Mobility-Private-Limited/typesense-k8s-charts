@@ -140,7 +140,7 @@ ingress:
 
       ## If TLS is set to true, you must declare what secret will store the key/certificate for TLS
       ##
-      tlsSecret: typesense.local-tls
+      tlsSecret: typesense-dev-tls
 
       ## Ingress annotations done as key:value pairs
       ## For a full list of possible ingress annotations, please see
