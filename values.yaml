@@ -99,11 +99,7 @@ persistence:
 ## Service paramaters
 ##
 service:
-  ## Service type
-  ##
   type: ClusterIP
-  ## HTTP Port
-  ##
   port: 8000
   ## Specify the nodePort value for the LoadBalancer and nodePort service types.
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodePort
