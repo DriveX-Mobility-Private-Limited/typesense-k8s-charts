@@ -41,7 +41,7 @@ extraEnv:
   - name: TYPESENSE_DATA_DIR
     value: "/data"
   - name: TYPESENSE_CORS_ORIGINS
-    value: "*"  # Or specify your dashboard domain
+    value: "*"
   - name: TYPESENSE_CORS_METHODS
     value: "GET,POST,PUT,DELETE"
   - name: TYPESENSE_CORS_HEADERS
@@ -49,8 +49,7 @@ extraEnv:
   - name: TYPESENSE_CORS_MAX_AGE
     value: "86400"
   - name: TYPESENSE_CORS_CREDENTIALS
-    value: "true"    
-
+    value: "true"
 ## Define a reference to a config map or a secret to pass into the pod as environment vars
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
 envFrom: {}
@@ -174,6 +173,9 @@ ingress:
        nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
        nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
        nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+       nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+       nginx.ingress.kubernetes.io/cors-allow-headers: "Content-Type, X-TYPESENSE-API-KEY"
+       nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
 
   secrets:
   ## If you're providing your own certificates, please use this to add the certificates as secrets
