@@ -160,6 +160,7 @@ ingress:
        nginx.ingress.kubernetes.io/proxy-body-size: "50m"
        # Consider adding the following for security
        nginx.ingress.kubernetes.io/enable-cors: "true"
+       nginx.ingress.kubernetes.io/cors-allow-origin: "https://ts-dashboard.drivex.dev"
        nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
        nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
        nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
