@@ -8,6 +8,7 @@ metadata:
   annotations:
     {{- if .certManager }}
     kubernetes.io/tls-acme: "true"
+    ingressClassName: nginx
     {{- end }}
     {{- range $key, $value := .annotations }}
     {{ $key }}: {{ $value | quote }}
