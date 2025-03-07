@@ -12,5 +12,7 @@ spec:
   resources:
     requests:
       storage: {{ .Values.persistence.size | quote }}
-  {{ include "typesense.storageClass" . }}
+  {{- if (include "typesense.storageClass" .) }}
+  storageClassName: {{ include "typesense.storageClass" . }}
+  {{- end }}
 {{- end }}
