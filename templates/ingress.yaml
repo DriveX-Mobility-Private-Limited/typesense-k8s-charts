@@ -8,6 +8,7 @@ metadata:
   annotations:
     {{- if .certManager }}
     kubernetes.io/tls-acme: "true"
+    ingressClassName: nginx
     {{- end }}
     {{- range $key, $value := .annotations }}
     {{ $key }}: {{ $value | quote }}
@@ -23,7 +24,7 @@ spec:
               service:
                 name: {{ template "typesense.fullname" $ }}
                 port:
-                  number: 80
+                  number: 8000
   {{- if .tls }}
   tls:
     - hosts:
