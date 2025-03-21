@@ -92,12 +92,12 @@ persistence:
   storageClass: gp2
   accessMode: ReadWriteOnce
   size: 50Gi
-# args:
-#   - "--data-dir=/data"
-#   - "--api-key=$(TYPESENSE_API_KEY)"
-#   - "--enable-search-analytics=true"
-#   - "--analytics-dir=/data/analytics"
-#   - "--analytics-flush-interval=5"
+args:
+  - "--data-dir=/data"
+  - "--api-key=$(TYPESENSE_API_KEY)"
+  - "--enable-search-analytics=true"
+  - "--analytics-dir=/data/analytics"
+  - "--analytics-flush-interval=5"
 ## Service paramaters
 ##
 service:
