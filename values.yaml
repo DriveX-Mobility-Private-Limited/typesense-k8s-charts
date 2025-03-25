@@ -36,19 +36,19 @@ applicationPort: 8108
 ## Define custom environment variables to pass to the image here
 ##
 extraEnv: []
-extraArgs:
-  - name: TYPESENSE_DATA_DIR
-    value: /data
-  - name: TYPESENSE_API_KEY
-    value: "$(TYPESENSE_API_KEY)"
-  - name: TYPESENSE_ENABLE_SEARCH_ANALYTICS
-    value: "true"
-  - name: TYPESENSE_ANALYTICS_DIR
-    value: /data/analytics
-  - name: TYPESENSE_ANALYTICS_FLUSH_INTERVAL
-    value: "5"
-  - name: TYPESENSE_ANALYTICS_MINUTE_RATE_LIMIT
-    value: "10"
+# extraArgs:
+#   - name: TYPESENSE_DATA_DIR
+#     value: /data
+#   - name: TYPESENSE_API_KEY
+#     value: "$(TYPESENSE_API_KEY)"
+#   - name: TYPESENSE_ENABLE_SEARCH_ANALYTICS
+#     value: "true"
+#   - name: TYPESENSE_ANALYTICS_DIR
+#     value: /data/analytics
+#   - name: TYPESENSE_ANALYTICS_FLUSH_INTERVAL
+#     value: "5"
+#   - name: TYPESENSE_ANALYTICS_MINUTE_RATE_LIMIT
+#     value: "10"
 
 ## Define a reference to a config map or a secret to pass into the pod as environment vars
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
