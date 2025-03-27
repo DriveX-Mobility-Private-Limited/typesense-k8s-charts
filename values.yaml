@@ -1,10 +1,11 @@
+
 ## typesense image version
 ## ref: https://hub.docker.com/r/typesense/typesense/
 ##
 image:
   registry: docker.io
   repository: typesense/typesense
-  tag: 0.13.0
+  tag: "28.0"
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -35,12 +36,26 @@ applicationPort: 8108
 
 ## Define custom environment variables to pass to the image here
 ##
-extraEnv: {}
+extraEnv: []
+# extraArgs:
+#   - name: TYPESENSE_DATA_DIR
+#     value: /data
+#   - name: TYPESENSE_API_KEY
+#     value: "$(TYPESENSE_API_KEY)"
+#   - name: TYPESENSE_ENABLE_SEARCH_ANALYTICS
+#     value: "true"
+#   - name: TYPESENSE_ANALYTICS_DIR
+#     value: /data/analytics
+#   - name: TYPESENSE_ANALYTICS_FLUSH_INTERVAL
+#     value: "5"
+#   - name: TYPESENSE_ANALYTICS_MINUTE_RATE_LIMIT
+#     value: "10"
 
 ## Define a reference to a config map or a secret to pass into the pod as environment vars
 ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
-envFrom: {}
-
+envFrom: 
+  - configMapRef:
+      name: typesense-config-prod
 ## Affinity for pod assignment
 ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-typesense/#affinity-and-anti-affinity
 ##
@@ -49,13 +64,18 @@ affinity: {}
 ## typesense labels for pod assignment. Evaluated as a template.
 ## Ref: https://kubernetes.io/docs/user-guide/typesense-selection/
 ##
-nodeSelector: {}
+nodeSelector:
+  if-typesense-pod: "true"
 
-## Tolerations for pod assignment. Evaluated as a template.
-## Ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
-##
-tolerations: {}
-
+tolerations:
+  - key: "if-monitoring-pod"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
+  - key: "if-typesense-pod"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"
 ## Pod Security Context
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 ##
@@ -88,19 +108,15 @@ persistence:
   ## If defined, volume.beta.kubernetes.io/storage-class: <storageClass>
   ## Default: volume.alpha.kubernetes.io/storage-class: default
   ##
-  # storageClass:
+  storageClass: gp2
   accessMode: ReadWriteOnce
-  size: 1Gi
+  size: 50Gi
 
 ## Service paramaters
 ##
 service:
-  ## Service type
-  ##
   type: ClusterIP
-  ## HTTP Port
-  ##
-  port: 80
+  port: 8000
   ## Specify the nodePort value for the LoadBalancer and nodePort service types.
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodePort
   ##
@@ -120,19 +136,19 @@ service:
 ingress:
   ## Set to true to enable ingress record generation
   ##
-  enabled: false
+  enabled: true
 
   ## The list of hostnames to be covered with this ingress record.
   ## Most likely this will be just one host, but in the event more hosts are needed, this is an array
   hosts:
-    - name: typesense.local
+    - name: search.drivex.in
 
       ## Set pathType for this host
       pathType: Prefix
 
       ## Set this to true in order to enable TLS on the ingress record
       ##
-      tls: false
+      tls: true
 
       ## Set this to true in order to add the corresponding annotations for cert-manager
       ##
@@ -140,7 +156,7 @@ ingress:
 
       ## If TLS is set to true, you must declare what secret will store the key/certificate for TLS
       ##
-      tlsSecret: typesense.local-tls
+      tlsSecret: typesense-prod-tls
 
       ## Ingress annotations done as key:value pairs
       ## For a full list of possible ingress annotations, please see
@@ -148,7 +164,25 @@ ingress:
       ##
       ## If certManager is set to true, annotation kubernetes.io/tls-acme: "true" will automatically be set
       annotations:
-      #  kubernetes.io/ingress.class: nginx
+       cert-manager.io/cluster-issuer: letsencrypt-prod
+       app.kubernetes.io/name: typesense-prod
+       kubernetes.io/ingress.class: "nginx"
+       # kubernetes.io/ingress.class: alb
+       nginx.ingress.kubernetes.io/ssl-redirect: "true"
+       # Enable if you need HTTP/2 support (especially helpful for gRPC)
+       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+       # nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+       # Add if you need larger request bodies
+       nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+       # Consider adding the following for security
+       nginx.ingress.kubernetes.io/enable-cors: "true"
+       nginx.ingress.kubernetes.io/cors-allow-origin: "https://ts-dashboard.drivex.in, http://localhost:5173, https://drivex.in, https://dirvex.in"
+       nginx.ingress.kubernetes.io/proxy-connect-timeout: "300"
+       nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+       nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+       nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+       nginx.ingress.kubernetes.io/cors-allow-headers: "Content-Type, X-TYPESENSE-API-KEY"
+       nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
 
   secrets:
   ## If you're providing your own certificates, please use this to add the certificates as secrets
@@ -163,4 +197,3 @@ ingress:
   # - name: typesense.local-tls
   #   key:
   #   certificate:
-
