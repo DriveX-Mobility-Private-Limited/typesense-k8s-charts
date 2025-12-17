@@ -27,7 +27,7 @@ image:
 
 ## Specify the number of replicas for the application
 ##
-replicas: 1
+replicas: 2
 
 ## Specify the port where your application will be running
 ##
