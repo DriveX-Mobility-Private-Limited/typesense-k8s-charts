@@ -58,6 +58,12 @@ envFrom:
 ## Affinity for pod assignment
 ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-typesense/#affinity-and-anti-affinity
 ##
+args:
+  - "--enable-search-analytics=true"
+  - "--analytics-dir=/data/analytics"
+  - "--analytics-flush-interval=1"
+  - "--analytics-minute-rate-limit=10000"
+  
 affinity: {}
 
 ## typesense labels for pod assignment. Evaluated as a template.
