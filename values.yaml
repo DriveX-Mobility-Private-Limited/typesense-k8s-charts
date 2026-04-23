@@ -63,7 +63,7 @@ args:
   - "--analytics-dir=/data/analytics"
   - "--analytics-flush-interval=1"
   - "--analytics-minute-rate-limit=10000"
-  - "--cors-domains=https://ts-dashboard.drivex.dev,http://localhost:5173,https://drivex.dev,https://www.drivex.dev"
+  - "--cors-domains=https://ts-dashboard.drivex.dev,http://localhost:5173,https://drivex.dev,https://www.drivex.dev,https://boulevard.drivex.dev"
   
 affinity: {}
 
